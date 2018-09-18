@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#set -x
+
+source /scripts/fw.sh
+
+fwmain
+
