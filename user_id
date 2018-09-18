@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ "x$1" == "x" ]; then echo missing user name; exit 0; fi
+
+id -u $1
+

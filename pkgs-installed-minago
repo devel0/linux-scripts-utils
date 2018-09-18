@@ -1,0 +1,10 @@
+#!/bin/bash
+
+minago=10
+
+if [ "x$1" != "x" ]; then minago=$1; fi
+
+echo "shows packages installed [$minago] min ago"
+
+find /var/lib/dpkg/info -name "*.list" -mmin -$minago |     sed -e s,/var/lib/dpkg/info/,, -e s,.list$,, |     sort
+

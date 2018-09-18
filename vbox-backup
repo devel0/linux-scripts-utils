@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$2" == "" ]; then
+	echo "specify vm name and ova export file"
+	exit 1
+fi
+
+vboxmanage export $1 -o $2

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+	echo "specify vm"
+	exit 1
+fi
+
+vboxmanage snapshot $1 list

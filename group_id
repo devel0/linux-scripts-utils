@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ "x$1" == "x" ]; then echo missing group name; exit 0; fi
+
+getent group $1 | cut -d : -f 3

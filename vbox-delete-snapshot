@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$2" == "" ]; then
+	echo "specify vm and snapshot uuid"
+	exit 1
+fi
+
+vboxmanage snapshot $1 delete $2

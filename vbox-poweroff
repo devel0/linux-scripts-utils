@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+	echo "specify vm name"
+	exit 1
+fi
+
+echo "press enter to power off (unsafe) now"
+read -n 1
+
+vboxmanage controlvm $1 poweroff

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$2" == "" ]; then
+	echo "specify vm and snap name"
+	exit 1
+fi
+
+vboxmanage snapshot $1 take $2
