@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# [os install notes](https://github.com/devel0/knowledge/blob/master/linux/quick-and-dirty-server-install-notes.md)
+
 #-------
 # debug
 #-------
