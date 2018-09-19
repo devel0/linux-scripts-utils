@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# highlight comment
+function sgrep1 { sed "s/\(\/\*\)\(.*\)\(\*\/\)/"`printf "\033[38;5;14m"`"\2"`printf "\033[0m"`/; }
+
+# highlight chain
+function sgrep2 { sed "s/\(Chain \)\([^ ]*\)\(.*\)/\1"`printf "\033[38;5;226m"`"\2"`printf "\033[0m"`"\3"/; }
+
+# highlight temp
+function sgrep3 { sed "s/\(.*\)\(\[TMP\]\)\(.*\)/"`printf "\033[38;5;15;48;5;124m"`"\1\2\3"`printf "\033[0m"`/; }
+
+echo '==============================================================='
+echo -e "\033[38;5;34m FILTER \033[0m"
+echo '---------------------------------------------------------------'
+
+iptables -t filter -v --list -n --line-numbers | sgrep1 | sgrep2 | sgrep3
+    
+echo
+echo '==============================================================='
+echo -e "\033[38;5;34m NAT \033[0m"
+echo '---------------------------------------------------------------'
+iptables -t nat -v --list -n --line-numbers | sgrep1 | sgrep2 | sgrep3

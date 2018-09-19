@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "x$1" == "x" ]; then
+	echo "specify disk"
+	exit 1
+fi
+
+udisksctl power-off -b $1
