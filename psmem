@@ -2,7 +2,7 @@
 
 filter=""
 
-if [ "$filter" != "" ]; then
+if [ "$1" != "" ]; then
 	filter="-C $1"
 fi
 
