@@ -1,0 +1,10 @@
+#!/bin/bash
+
+filter=""
+
+if [ "$filter" != "" ]; then
+	filter="-C $1"
+fi
+
+ps -o pid,user,drs,trs,vsz,args $filter | awk '{ for (i=1; i<=NF; ++i) { if (i>=3 && i<=5) { if (NR>1) $i=int($i/1024/1024)"M"; printf("%10s ",$i); } else { if (i<3) printf("%10s ", $i); else { if (i==6) printf("   "); printf("%s ", $i); } } } printf("\n"); }'
+
