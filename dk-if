@@ -5,4 +5,4 @@ if [ "x$1" == "x" ]; then
         exit 1
 fi
 
-echo br-$(docker network ls | grep "$1 " | awk '{print $1}')
+echo br-$(docker network ls | grep " $1 " | awk '{print $1}')
