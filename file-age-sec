@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then echo "specify file"; exit 0; fi
+
+echo $(($(date +%s) - $(date +%s -r "$1")))
