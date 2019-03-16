@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$1" == ""]; then
+	echo "specify container name"
+	exit
+fi
+
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $1
