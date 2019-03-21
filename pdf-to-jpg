@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+	echo "specify pdf file"
+	exit
+fi
+
+file="$1"
+
+filename="${file%.*}"
+
+pdftoppm "$1" > "$1".ppm
+convert "$1".ppm $filename.jpg
+rm -f "$1".ppm
