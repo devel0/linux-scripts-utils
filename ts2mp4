@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+	echo "syntax: [input.ts]"
+	exit
+fi
+
+file="$1"
+
+dir="$(dirname '$1')"
+filename="${file%.*}"
+
+ffmpeg -i "$file" -vcodec copy -acodec copy "$dir"/"$filename".mp4
+
