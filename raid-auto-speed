@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#
+# set using `crontab -e` as follow to execute check hourly
+#
+# 0 */1 * * * /scripts/raid-auto-speed >/dev/null 2>&1
+#
+
+# h: 00..23
+let hh="$(date +%H | sed 's/^[0]*//g')"
+
+# weekday: 1..7 ( 1=mon )
+let weekday=$(date +%u)
+
+function set_speed_max()
+{
+        echo "setting raid speed max [$1] kb/s"
+        echo $1 > /proc/sys/dev/raid/speed_limit_max
+}
+
+if (( "$hh" < 4 )); then
+        echo "bk maintenance range"
+        set_speed_max 30000
+
+# saturday,sunday
+elif (( "$weekday" == 6 || "$weekday" == 7 )); then
+        echo "saturday,sunday"
+        set_speed_max 150000
+
+# mon...fri
+else
+        echo "mon...fri: h>4"
+        set_speed_max 30000
+fi
+
