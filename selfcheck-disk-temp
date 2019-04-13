@@ -1,0 +1,21 @@
+#!/bin/bash
+
+source /etc/environment
+
+statuslog=/status/selfcheck-disk-temp.json
+
+cat << EOF > $statuslog
+{
+"date" : "$(date +%Y.%m.%d-%H.%M.%S)",
+"disk_temp" : [
+EOF
+
+for i in `blkid | grep linux_raid | awk '{print $1}' | tr -d ':'`; do
+	echo -n '{ ' >> $statuslog
+	echo -n "disk: \"$i\", temperature_C: " >> $statuslog
+	echo -n $(smartctl -a $i | grep -i temperature_celsius | awk '{print $4}' | sed 's/^[0]*//g') >> $statuslog
+	echo ' },' >> $statuslog
+done
+
+echo " ] }" >> $statuslog
+
