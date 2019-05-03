@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for i in $(dk-list); do
+	echo "purging [$i]"
+	dk-purge-log $i
+done
+
