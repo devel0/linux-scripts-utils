@@ -10,7 +10,7 @@ stop_and_remove()
 	docker rm $1
 }
 
-q=$(docker ps --format "{{.Names}}" | grep ^$1$)
+q=$(docker ps -a --format "{{.Names}}" | grep ^$1$)
 if [ "$q" != "" ]; then
 	if [ "$2" == "-y" ]; then
 		stop_and_remove $1
