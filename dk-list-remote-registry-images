@@ -13,4 +13,5 @@ else
 	read -sp "Password: " pass
 fi
 
+echo
 curl https://$1/v2/_catalog --user $2:$pass
