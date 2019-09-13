@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ "$2" == "" ]; then
+	echo "$0 registry-host user [pass]"
+	exit 0
+fi
+
+pass=""
+
+if [ "$3" != "" ]; then
+	pass=$3
+else
+	read -sp "Password: " pass
+fi
+
+curl https://$1/v2/_catalog --user $2:$pass
