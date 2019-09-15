@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ ! -e current ]; then
+	echo "no current subvol found here"
+	exit 0
+fi
+
+dt=$(TZ=GMT date +@GMT-%Y.%m.%d-%H.%M.%S)
+
+btrfs sub snap current $dt

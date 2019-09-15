@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "x$1" == "x" ]; then
+	echo "$0 [containerid]"
+	exit 1
+fi
+
+docker inspect -f '{{ json .Mounts }}' $1 | jq
