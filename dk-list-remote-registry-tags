@@ -2,17 +2,24 @@
 
 #set -x
 
-if [ "$3" == "" ]; then
-	echo "$0 registry-host image user [pass]"
+if [ "$2" == "" ]; then
+	echo "$0 registry-host image [user] [pass]"
 	exit 0
 fi
 
+user="$2"
 pass=""
 
-if [ "$4" != "" ]; then
-	pass=$4
-else
-	read -sp "Password: " pass
+if [ "$user" != "" ]; then
+	if [ "$4" != "" ]; then
+		pass=$4
+	else
+		read -sp "Password: " pass
+	fi
 fi
 
-curl https://$1/v2/$2/tags/list --user $3:$pass
+if [ "$user" == "" ]; then
+	curl https://$1/v2/$2/tags/list
+else
+	curl https://$1/v2/$2/tags/list --user $3:$pass
+fi
