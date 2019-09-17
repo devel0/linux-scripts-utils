@@ -20,5 +20,5 @@ echo
 if [ "$user" == "" ]; then
         curl https://$1/v2/_catalog
 else
-	curl https://$1/v2/_catalog --user $2:$pass
+	curl https://$1/v2/_catalog --user $user:$pass
 fi
