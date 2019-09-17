@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#set -x
+
+if [ "$3" == "" ]; then
+	echo "$0 registry-host image tag user [pass]"
+	exit 0
+fi
+
+pass=""
+
+if [ "$5" != "" ]; then
+	pass=$5
+else
+	read -sp "Password: " pass
+fi
+
+host="$1"
+image="$2"
+tag="$3"
+user="$4"
+
+dig=$(curl -I -v -u "$user:$pass" -H "Accept: application/vnd.docker.distribution.manifest.v2+json" https://$host/v2/$image/manifests/$tag 2>/dev/null | \
+	grep docker-content-digest)
+dig=$(echo -n $dig | sed 's/docker-content-digest: //g' | tr -d "\r")
+
+if [ "$dig" != "" ]; then
+	echo "press a key to proceed or ctrl+c to abort"
+	read -n 1
+	curl -X "DELETE" "https://$host/v2/$image/manifests/$dig" --user $user:$pass
+
+	echo "need to garbage to free space using 'docker exec container-name registry garbage-collect /etc/docker/registry/config.yml'"
+else
+	echo "no digest found; may auth invalid?"
+fi
