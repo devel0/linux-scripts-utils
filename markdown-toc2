@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#set -x
+
+which shu>/dev/null
+
+if [ "$?" != "0" ]; then
+    echo "shu requirement missing, install with:"
+    echo "dotnet tool install --global shu --version 0.0.4"
+    exit 0
+fi
+
+which markdown-toc>/dev/null
+
+if [ "$?" != "0" ]; then
+    echo "markdown-toc requirement missing, install with"
+    echo "npm install -g markdown-toc"
+    exit 0
+fi
+
+mdtoken='<!-- TOC -->'
+mdtokenEnd='<!-- TOCEND -->'
+
+if [ "$1" == "" ]; then
+    echo "specify markdown file to create toc"
+    echo "file must contains follow token where toc placed"
+    echo $mdtoken
+    echo 'any text'
+    echo $mdtokenEnd
+    exit 0
+fi
+
+which uuid >/dev/null
+
+if [ "$?" != "0" ]; then
+    echo "uuid command missing"
+    exit 0
+fi
+
+s=$(markdown-toc "$1")
+
+tmpfile="$1".$(uuid)
+
+cat "$1" | \
+    shu replace-token -csregex "$mdtoken"".*""$mdtokenEnd" "$mdtoken""$mdtokenEnd" | \
+    shu replace-token "$mdtoken" "$mdtoken\n""$s\n" > "$tmpfile"
+
+mv -f "$tmpfile" "$1"
