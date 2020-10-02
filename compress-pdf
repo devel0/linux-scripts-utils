@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+if [ "$1" == "" ]; then
+	echo "specify pdf to compress ( output will out.pdf )"
+	exit 1
+fi
+
+gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile=out.pdf "$1"
