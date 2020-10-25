@@ -1,0 +1,20 @@
+#!/bin/bash
+
+
+if [ "$1" == "" ]; then
+	echo "specify video to rotate ( output will out.pdf ) and optional transpose argument"
+	echo "  rotate-video my.mp4 3"
+	echo "will rotate 90 clockwise and vertical flip"
+	echo
+	echo "transpose types:"
+	echo "  0 = 90 CounterCLockwise and Vertical Flip"
+	echo "  1 = 90 Clockwise ( default )"
+	echo "  2 = 90 CounterClockwise"
+	echo "  3 = 90 Clockwise and Vertical Flip"
+	exit 1
+fi
+
+transpose="1"
+if [ "$2" != "" ]; then transpose="$2"; fi
+
+ffmpeg -i "$1" -vf "transpose=$transpose" out.mp4
