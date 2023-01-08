@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#set -x
-
 if [ "$2" == "" ]; then
 	echo "$0 registry-host image [user] [pass]"
 	exit 0
@@ -19,7 +17,7 @@ if [ "$3" != "" ]; then
 fi
 
 if [ "$user" == "" ]; then
-	curl https://$1/v2/$2/tags/list
+	curl -s https://$1/v2/$2/tags/list
 else
-	curl https://$1/v2/$2/tags/list --user $user:$pass
+	curl -s https://$1/v2/$2/tags/list --user $user:$pass
 fi
