@@ -44,6 +44,12 @@ if [ "$?" != "0" ]; then
     exit 0
 fi
 
+toc_prev="$(cat "$1" | grep "\-\- TOCEND \-\-")"
+if [ "$toc_prev" == "" ]; then
+    echo "missing toc"
+    exit 0
+fi
+
 if [ "$MTOCPRESERVE" == "1" ]; then
     s=$(markdown-toc "$1")
 else
