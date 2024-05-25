@@ -1,0 +1,7 @@
+COUNTRY="IT"
+STATE="Italy"
+CITY="Trento"
+ORGNAME="SearchAThing"
+ORGUNIT="Development"
+DOMAIN=localhost
+DURATION_DAYS=36500 # 100 years
