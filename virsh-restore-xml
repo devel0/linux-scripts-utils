@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+exdir="$(dirname "$(readlink -f "$0")")"
+
+if [ "$1" == "" ]; then
+    echo "$0 <save-folder>"
+    echo "restore domain definition from given backup definition folder"
+    exit 1
+fi
+
+domain="$(basename $1)"
+
+dstfolder="$1"
+
+echo "Restoring $dstfolder/$domain.xml"
+
+virsh define "$dstfolder/$domain".xml
+
+readarray -t myarr < <(find "$dstfolder"/snapshots -type f -exec echo {} \; | sort)
+
+for snap in "${myarr[@]}"; do
+    echo "Restoring $snap"
+    virsh snapshot-create "$domain" --xmlfile "$snap" --redefine
+done
+ 

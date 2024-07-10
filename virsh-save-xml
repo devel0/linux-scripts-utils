@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+exdir="$(dirname "$(readlink -f "$0")")"
+
+if [ "$2" == "" ]; then
+    echo "$0 <vmname> <outputfolder>"
+    echo
+    echo "create backup <vmname>.xml and <snap1>.xml ... in <outputfolder/<vmname> directory"
+    echo
+    echo "Specify vmname between follows:"
+    virsh list --all --name
+    exit 1
+fi
+
+domain="$1"
+
+dstfolder="$2/$domain"
+
+mkdir -p "$dstfolder"/snapshots
+
+virsh dumpxml "$domain" > "$dstfolder/$domain".xml
+
+echo "Created $dstfolder/$domain.xml"
+
+# snapshots sorted by create timestamp reverse
+snaps=$(virsh snapshot-list "$domain" | tail -n +3 | awk 'NF' | awk '{print $2 "_" $3 "_" $4 " " $1}' | sort | awk '{print $2}')
+
+let i=0
+
+for snap in $snaps; do 
+    # snapshot with XXX digit prefix suitable for further ordering during restore
+    dstfilename="$dstfolder/snapshots/$(printf "%03d" $i)_$snap".xml
+    virsh snapshot-dumpxml "$domain" "$snap" > "$dstfilename"
+    echo "Created $dstfilename"
+    let i=$i+1
+done
