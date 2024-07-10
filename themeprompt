@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# ref: 
+
+themeprompt() {
+
+    echo "arg=$1"
+
+    fg=""
+    bg=""
+
+    case $1 in
+
+    prod)
+        fg=231
+        bg=160
+        ;;
+
+    prod-user)
+        fg=160
+        ;;
+
+    dev)
+        fg=16
+        bg=226
+        ;;
+
+    dev-user)
+        fg=226
+        ;;
+
+    test)
+        fg=16
+        bg=119
+        ;;
+
+    test-user)
+        fg=119
+        ;;
+
+    --help)
+        echo "specify one of follow profiles: prod prod-user dev dev-user test test-user"
+        return
+        ;;
+
+    esac
+
+    DEFAULT_PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$'
+
+    if [ "$fg" != "" ] && [ "$bg" != "" ]; then
+        PS1="$(echo $DEFAULT_PS1 | sed 's/01;32/1;38;5;${fg};48;5;${bg}/') "
+    elif [ "$fg" != "" ]; then
+        PS1="$(echo $DEFAULT_PS1 | sed 's/01;32/1;38;5;${fg}/') "
+    else
+        PS1=$DEFAULT_PS1
+    fi    
+
+}
