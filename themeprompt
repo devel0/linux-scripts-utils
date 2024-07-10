@@ -2,9 +2,7 @@
 
 # ref: https://github.com/devel0/knowledge/blob/8aed669981349d276fb23a0d2771893138869c44/doc/prompt-colors.md
 
-themeprompt() {
-
-    echo "arg=$1"
+themeprompt() {    
 
     fg=""
     bg=""
