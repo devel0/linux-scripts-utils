@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# ref: 
+# ref: https://github.com/devel0/knowledge/blob/8aed669981349d276fb23a0d2771893138869c44/doc/prompt-colors.md
 
 themeprompt() {
 
@@ -12,7 +12,7 @@ themeprompt() {
     case $1 in
 
     prod)
-        fg=231
+        fg=15
         bg=160
         ;;
 
@@ -21,7 +21,7 @@ themeprompt() {
         ;;
 
     dev)
-        fg=16
+        fg=15
         bg=226
         ;;
 
@@ -30,20 +30,30 @@ themeprompt() {
         ;;
 
     test)
-        fg=16
-        bg=119
+        fg=15
+        bg=22
         ;;
 
     test-user)
-        fg=119
+        fg=22
         ;;
 
     --help)
         echo "specify one of follow profiles: prod prod-user dev dev-user test test-user"
         return
-        ;;
+        ;;    
 
     esac
+
+    if [ "$fg" == "" ] && [ "$1" != "" ] && (( $1 )); then
+        fg=$1
+    fi
+
+    if [ "$bg" == "" ] && [ "$2" != "" ] && (( $2 )); then
+        bg=$2
+    fi
+
+    # echo "using fg=$fg bg=$bg"
 
     DEFAULT_PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$'
 
