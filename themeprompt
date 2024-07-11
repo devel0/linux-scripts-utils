@@ -19,7 +19,7 @@ themeprompt() {
         ;;
 
     dev)
-        fg=15
+        fg=16
         bg=226
         ;;
 
