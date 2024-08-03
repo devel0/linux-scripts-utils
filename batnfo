@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+residual_capacity_pc="$(cat /sys/class/power_supply/BAT0/capacity)"
+residual_capacity_uWh="$(cat /sys/class/power_supply/BAT0/energy_now)"
+current_uW="$(cat /sys/class/power_supply/BAT0/power_now)"
+battery_activity="$(cat /sys/class/power_supply/BAT0/status)"
+
+residual_capacity_Wh="$(echo "$residual_capacity_uWh/1000000" | bc -l | sed 's/0*$//')"
+current_W="$(echo "$current_uW/1000000" | bc -l | sed 's/0*$//')"
+
+echo "$battery_activity at ${current_W}W"
+echo "Capacity is ${residual_capacity_pc}% ( ${residual_capacity_Wh}Wh )"
