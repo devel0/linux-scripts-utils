@@ -18,6 +18,13 @@ if [ "$1" == "--add-empty" ]; then
     shift
 fi
 
+ADDWILDCARD=false
+
+if [ "$1" == "--add-wildcard" ]; then
+    ADDWILDCARD=true
+    shift
+fi
+
 set -e # exit if errors
 # set -x
 
@@ -26,7 +33,7 @@ source $CERTPARAMS
 DURATION_DAYS=36500 # 100 years
 
 if [ "$1" == "" ] && ! $ADDEMPTY; then
-    echo "$0 [--add-empty] [NAME]*"
+    echo "$0 [--add-empty] [--add-wildcard] [NAME]*"
     echo "specify name of domains ( ie. "some some2" will generate some.$DOMAIN, some2.$DOMAIN )"
     exit
 fi
@@ -66,6 +73,11 @@ function append_dns_vars() {
 
     if $ADDEMPTY; then 
         echo "DNS.$k = $DOMAIN" >> $1
+        let k=$k+1
+    fi
+
+    if $ADDWILDCARD; then
+        echo "DNS.$k = *.$DOMAIN" >> $1
         let k=$k+1
     fi
 
