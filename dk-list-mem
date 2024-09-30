@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+for i in `dk-list`; do printf "%20s\tMem: " $i; printf "%.2f GB\tSwap: %.2f\n" "$(echo "$(docker inspect $i | jq -r ".[0].HostConfig.Memory") / 1024 /1024 / 1024" | bc -l)" "$(echo "$(docker inspect $i | jq -r ".[0].HostConfig.MemorySwap") / 1024 /1024 / 1024" | bc -l)"; done
