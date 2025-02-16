@@ -8,13 +8,22 @@ if [ "$1" == "" ]; then
 
 fi
 
-for line in `cat $1`; do    
+for line in `cat $1`; do
 
-    if [[ $line =~ ([^=]*)=\"(.*)\" ]]; then 
+    if [[ $line =~ ([^=]*)=(.*) ]]; then
+
         varname="${BASH_REMATCH[1]}"
         varvalue="${BASH_REMATCH[2]}"
 
-        export $varname=$varvalue        
+        if [[ $varvalue =~ \"(.*)\" ]]; then
+
+            varvalue="${BASH_REMATCH[1]}"
+
+        fi
+
+	    # echo "match $varname=$varvalue"
+
+        export $varname=$varvalue
     fi
 
 done
