@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+	echo "specify wifiinterface"
+	echo "also install dns/dhcp server with"
+	echo "curl -sSL https://download.technitium.com/dns/install.sh | sudo bash""
+	exit 1
+fi
+
+sysctl -w net.ipv4.ip_forward=1
+
+iptables -t nat -A POSTROUTING -o $1 -j MASQUERADE
+
+service dns start
