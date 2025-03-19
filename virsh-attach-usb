@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [ "$3" == "" ]; then
+    echo "attach/detach usb device to vm"
+    echo "$0 <attach|detach> <domain> <vid:pid>"
+    exit 1
+fi
+
+if [ "$1" != "attach" ] && [ "$1" != "detach" ]; then
+    echo "specify attach or detach as first argument"
+fi
+
+vid="$(echo "$3" | sed 's/:/ /' | awk '{print $1}')"
+pid="$(echo "$3" | sed 's/:/ /' | awk '{print $2}')"
+
+tmp="$(mktemp)"
+
+cat > "$tmp" << END
+<hostdev mode="subsystem" type="usb" managed="yes">
+  <source>
+    <vendor id="0x$vid"/>
+    <product id="0x$pid"/>
+  </source>
+</hostdev>
+END
+
+cat "$tmp"
+
+if [ "$2" == "detach" ]; then arg="--current"; fi
+
+virsh $1-device $2 "$tmp" $arg
+
+rm -f "$tmp"

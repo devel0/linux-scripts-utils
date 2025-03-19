@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 residual_capacity_pc="$(cat /sys/class/power_supply/BAT0/capacity)"
 residual_capacity_uWh="$(cat /sys/class/power_supply/BAT0/energy_now)"
